@@ -25,11 +25,11 @@
       /* value key */
       wrapper: '#lep-slider',
       animation: "fade",              //String: Select your animation type, "fade" or "slide"
-      easing: "swing",               //{NEW} String: Determines the easing method used in jQuery transitions. jQuery easing plugin is supported!
+      easing: "ease",               // String: Determines the easing method used in transitions. cubic buizier for example
       reverse: false,                 //{NEW} Boolean: Reverse the animation direction
       animationLoop: true,             //Boolean: Should the animation loop? If false, directionNav will received "disable" classes at either end
       slideshow: true,                //Boolean: Animate slider automatically
-      slideshowSpeed: 7000,           //Integer: Set the speed of the slideshow cycling, in milliseconds
+      slideshowSpeed: 1000,           //Integer: Set the speed of the slideshow cycling, in milliseconds
       animationSpeed: 600,            //Integer: Set the speed of animations, in milliseconds
       initDelay: 0,                   //{NEW} Integer: Set an initialization delay, in milliseconds
       randomize: false,               //Boolean: Randomize slide order
@@ -39,7 +39,7 @@
       pauseOnHover: false,            //Boolean: Pause the slideshow when hovering over slider, then resume when no longer hovering
 
       // Primary Controls
-      controlNav: true,               //Boolean: Create navigation for paging control of each clide? Note: Leave true for manualControls usage
+      navigators: true,               //Boolean: Create navigation for paging control of each clide? Note: Leave true for manualControls usage
       directionNav: true,             //Boolean: Create navigation for previous/next navigation? (true/false)
       prevText: "Previous",           //String: Set the text for the "previous" directionNav item
       nextText: "Next",               //String: Set the text for the "next" directionNav item
@@ -147,9 +147,15 @@
       _error('Wrapper element is mandatory for slider, define it in config or use #lep-slider');
     }
 
+    // adding css class
     _addClass(this.wrapperElement, 'lep-slider-wrapper');
+    // defining transision according to optons
+    this.wrapperElement.setAttribute('style', 'transition: transform ' + this._options.easing + ' '  + this._options.animationSpeed + 'ms;' +
+                                              '-webkit-transition: transform ' + this._options.easing + ' '  + this._options.animationSpeed + 'ms;' +
+                                              '-moz-transition: transform ' + this._options.easing + ' '  + this._options.animationSpeed + 'ms;' +
+                                              '-ms-transition: transform ' + this._options.easing + ' '  + this._options.animationSpeed + 'ms;');
 
-    this.slideElements = (this._options.slide) ? this.wrapperElement.querySelectorAll(this._options.slide) : this.wrapperElement.children;
+    var slideElements = (this._options.slide) ? this.wrapperElement.querySelectorAll(this._options.slide) : this.wrapperElement.children;
 
     // create a container element, this is what we are to move it inside wrapper
     this.slidesContainer = document.createElement('div');
@@ -158,19 +164,54 @@
 
     // append children to container
     // wrapping elemnts by reference prvents loosing listeners already bound to elements
-    var length = this.slideElements.length;
+    var length = slideElements.length;
+    this._options.slideWidth = 100 / length;
     for (var i = 0; i < length; i++) {
-      if (this.slideElements[0] != this.slidesContainer && this.slideElements[0] != undefined) {
-        _addClass(this.slideElements[0], 'slide-item');
-        this.slideElements[0].style.width = 100 / length + '%';
-        this.slidesContainer.appendChild(this.slideElements[0]);
+      if (slideElements[0] != this.slidesContainer && slideElements[0] != undefined) {
+        _addClass(slideElements[0], 'slide-item');
+        slideElements[0].style.width = this._options.slideWidth + '%';
+        this.slidesContainer.appendChild(slideElements[0]);
       }
     }
+
+    this.slideElements = this.slidesContainer.children;
 
     // setting with of items manually
     this.slidesContainer.style.width = (100 * length) + '%';
 
+    if (this._options.navigators) {
+      _addNavigators.call(this);
+    }
 
+
+  }
+
+  /**
+   * @name hasCssFeature
+   * @summary checks if current browser supports given feature or not
+   * thanks to [Daniel](http://stackoverflow.com/users/389410/daniel)
+   * @param config {object} - options of slider
+   **/
+   function _hasCssFeature(featurename) {
+    var feature = false,
+    domPrefixes = 'Webkit Moz ms O'.split(' '),
+    elm = document.createElement('div'),
+    featurenameCapital = null;
+
+    featurename = featurename.toLowerCase();
+
+    if( elm.style[featurename] !== undefined ) { feature = true; } 
+
+    if( feature === false ) {
+      featurenameCapital = featurename.charAt(0).toUpperCase() + featurename.substr(1);
+      for( var i = 0; i < domPrefixes.length; i++ ) {
+        if( elm.style[domPrefixes[i] + featurenameCapital ] !== undefined ) {
+          feature = true;
+          break;
+        }
+      }
+    }
+    return feature; 
   }
 
   /**
@@ -179,7 +220,7 @@
    *
    **/
   function _previous () {
-
+    _goTo.call(this, this._options.currentSlide - 1)
   }
 
   /**
@@ -188,7 +229,7 @@
    *
    **/
   function _next () {
-
+    _goTo.call(this, this._options.currentSlide + 1)
   }
 
   /**
@@ -209,10 +250,35 @@
       index = 0;
     }
 
+    this._options.currentSlide = index;
+
     // navigating
+    // checking if browser supports transtion otherwise use left property with JS animation
+    if (_hasCssFeature('transition')) {
+      this.slidesContainer.setAttribute('style', 'width: '+ this.slidesContainer.style.width +
+                                                  ';transform: translateX(-' + index * this._options.slideWidth + '%);' + 
+                                                  '-webkit-transform: translateX(-' + index * this._options.slideWidth + '%);' + 
+                                                  '-moz-transform: translateX(-' + index * this._options.slideWidth + '%);' + 
+                                                  '-ms-transform: translateX(-' + index * this._options.slideWidth + '%;)');
+    // using JS animation
+    // for cases not supporting transition
+    } else {
+      console.log('add JS fallback');
+    }
+
 
   }
-  // addNavigators
+
+  /**
+   * @name _addNavigators
+   * @summary navigate to given slide number
+   * this will navigate to last slide if index is greater than slide numbers
+   * and also to first slide if index is zero
+   * @param index {number} - the index of target slide in the slidesContainer
+   **/
+   function _addNavigators () {
+
+   }
   // addControllers
   // createIndicators
   // startSlideshow
@@ -270,8 +336,8 @@
       _next.call(this);
       return this;
     },
-    goTo: function () {
-      // _setChoiceManually.call(this, activatorName, item);
+    goTo: function (index) {
+      _goTo.call(this, index);
       return this;
     }
   };

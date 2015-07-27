@@ -17,6 +17,7 @@
         position: relative;
         height: 100%;
         width: auto;
+        @include transition(inherit);
         // @todo direction needed
         .slide-item
         {
