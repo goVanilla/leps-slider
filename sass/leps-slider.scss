@@ -1,0 +1,27 @@
+@import "reset";
+@import "compass/css3";
+@import "compass/css3/animation";
+@import "variables";
+@import "base";
+
+
+//===============================================
+// Layout
+//===============================================
+.lep-slider-wrapper
+{
+    position: relative;
+    overflow: hidden;
+    .slides-container
+    {
+        position: relative;
+        height: 100%;
+        width: auto;
+        // @todo direction needed
+        .slide-item
+        {
+            float: left;
+            height: 100%;
+        }
+    }
+}
