@@ -24,39 +24,35 @@
     var defaults = {
       /* value key */
       wrapper: '#lep-slider',
-      animation: "fade",              //String: Select your animation type, "fade" or "slide"
-      easing: "ease",               // String: Determines the easing method used in transitions. cubic buizier for example
-      reverse: false,                 //{NEW} Boolean: Reverse the animation direction
-      animationLoop: true,             //Boolean: Should the animation loop? If false, directionNav will received "disable" classes at either end
-      slideshow: true,                //Boolean: Animate slider automatically
-      slideshowSpeed: 1000,           //Integer: Set the speed of the slideshow cycling, in milliseconds
-      animationSpeed: 600,            //Integer: Set the speed of animations, in milliseconds
-      initDelay: 0,                   //{NEW} Integer: Set an initialization delay, in milliseconds
-      randomize: false,               //Boolean: Randomize slide order
+      animation: "fade",              // {string} - fade or slide
+      easing: "ease",                 // {string} - Determines the easing method used in transitions. cubic buizier for example
+      direction: 'ltr',               // {string} - rtl or ltr. defines the dirction of accending slide
+      animationLoop: true,            // {boolean} - defines if animation will start from 1st slide after finished in last slide
+      autoSlide: true,                // {boolean} - slide automatically or manually. if false, at least 1 navigator menu shold be present
+      animationSpeed: 600,            // {number} - animation duration of each slide
+      initDelay: 0,                   // {number} - delay of starting first slideShow in miliseconds
+      slideDelay: 0                   // {number} - delay of animation of each slide in milisecond
+      randomize: false,               // {boolean}: Randomize slide order
 
       // Usability features
-      pauseOnAction: true,            //Boolean: Pause the slideshow when interacting with control elements, highly recommended.
-      pauseOnHover: false,            //Boolean: Pause the slideshow when hovering over slider, then resume when no longer hovering
+      pauseOnHover: false,            // {boolean} - pause slide show while oiinter is inside slider
 
       // Primary Controls
-      navigators: true,               //Boolean: Create navigation for paging control of each clide? Note: Leave true for manualControls usage
-      directionNav: true,             //Boolean: Create navigation for previous/next navigation? (true/false)
-      prevText: "Previous",           //String: Set the text for the "previous" directionNav item
-      nextText: "Next",               //String: Set the text for the "next" directionNav item
+      navigators: true,               // {boolean} - Create navigation for paging control of each clide? Note: Leave true for manualControls usage
+      navigatorsContainer: "",        // {string} - Custom css class name to be added to Navigation menu
+      directionNav: true,             // {boolean} - Create navigation for previous/next navigation? (true/false)
+      pasueButton: true,              // {boolean} - Show pause button
+      prevText: "Previous",           // {string} - Set the text for the "previous" directionNav item
+      nextText: "Next",               // {string} - Set the text for the "next" directionNav item
 
-      // Secondary Navigation
-      keyboard: true,                 //Boolean: Allow slider navigating via keyboard left/right keys
-      mousewheel: false,              //{UPDATED} Boolean: Requires jquery.mousewheel.js (https://github.com/brandonaaron/jquery-mousewheel) - Allows slider navigating via mousewheel
-
-      // Special properties
-      controlsContainer: "",          //{UPDATED} Selector: USE CLASS SELECTOR. Declare which container the navigation elements should be appended too. Default container is the FlexSlider element. Example use would be ".flexslider-container". Property is ignored if given element is not found.
-      manualControls: "",             //Selector: Declare custom control navigation. Examples would be ".flex-control-nav li" or "#tabs-nav li img", etc. The number of elements in your controlNav should match the number of slides/tabs.
+      // Maual navigation
+      keyboard: true,                 // {boolean} - Allow slider navigating via keyboard left/right keys
 
       // Carousel Options
-      itemWidth: 0,                   //{NEW} Integer: Box-model width of individual carousel items, including horizontal borders and padding.
-      itemMargin: 0,                  //{NEW} Integer: Margin between carousel items.
-      minItems: 0,                    //{NEW} Integer: Minimum number of carousel items that should be visible. Items will resize fluidly when below this.
-      maxItems: 0,                    //{NEW} Integer: Maxmimum number of carousel items that should be visible. Items will resize fluidly when above this limit.
+      itemWidth: 0,                   // {nteger} - Box-model width of individual carousel items, including horizontal borders and padding.
+      itemMargin: 0,                  // {nteger} - Margin between carousel items.
+      minItems: 0,                    // {nteger} - Minimum number of carousel items that should be visible. Items will resize fluidly when below this.
+      maxItems: 0,                    // {nteger} - Maxmimum number of carousel items that should be visible. Items will resize fluidly when above this limit.
     };
 
     this._options = _merge(defaults, config);
