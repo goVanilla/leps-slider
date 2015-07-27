@@ -31,7 +31,7 @@
       autoSlide: true,                // {boolean} - slide automatically or manually. if false, at least 1 navigator menu shold be present
       animationSpeed: 600,            // {number} - animation duration of each slide
       initDelay: 0,                   // {number} - delay of starting first slideShow in miliseconds
-      slideDelay: 0                   // {number} - delay of animation of each slide in milisecond
+      slideDelay: 0,                   // {number} - delay of animation of each slide in milisecond
       randomize: false,               // {boolean}: Randomize slide order
 
       // Usability features
@@ -228,6 +228,10 @@
     _goTo.call(this, this._options.currentSlide + 1)
   }
 
+
+  function _manualGoTo () {
+
+  }
   /**
    * @name _goTo
    * @summary navigate to given slide number
@@ -251,6 +255,7 @@
     // navigating
     // checking if browser supports transtion otherwise use left property with JS animation
     if (_hasCssFeature('transition')) {
+      //@todo add fade animation
       this.slidesContainer.setAttribute('style', 'width: '+ this.slidesContainer.style.width +
                                                   ';transform: translateX(-' + index * this._options.slideWidth + '%);' + 
                                                   '-webkit-transform: translateX(-' + index * this._options.slideWidth + '%);' + 
@@ -259,7 +264,7 @@
     // using JS animation
     // for cases not supporting transition
     } else {
-      console.log('add JS fallback');
+      //@todo add JS fallback
     }
 
 
@@ -272,9 +277,24 @@
    * and also to first slide if index is zero
    * @param index {number} - the index of target slide in the slidesContainer
    **/
-   function _addNavigators () {
+  function _addNavigators () {
+    // generating navigators menu
+    var navigators = document.createElement('nav');
+    var navigatorsContainer = document.createElement('ul');
 
-   }
+    navigators.appendChild(navigatorsContainer);
+
+    // appending points to navigator
+    for (var i = 0; i < this.slideElements.length; i++) {
+      var point = document.createElement('li');
+      point.onclick = _manualGoTo;
+      navigatorsContainer.appendChild(point);
+    }
+
+    // appending navigators menu to slider rapper
+    this.wrapperElement.appendChild(navigators);
+
+  }
   // addControllers
   // createIndicators
   // startSlideshow
