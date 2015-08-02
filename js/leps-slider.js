@@ -31,18 +31,19 @@
       autoSlide: true,                // {boolean} - slide automatically or manually. if false, at least 1 navigator menu shold be present
       animationSpeed: 600,            // {number} - animation duration of each slide
       initDelay: 0,                   // {number} - delay of starting first slideShow in miliseconds
-      slideDelay: 0,                   // {number} - delay of animation of each slide in milisecond
+      slideDelay: 0,                  // {number} - delay of animation of each slide in milisecond
       randomize: false,               // {boolean}: Randomize slide order
 
       // Usability features
       pauseOnHover: false,            // {boolean} - pause slide show while oiinter is inside slider
 
       // Primary Controls
-      navigators: true,               // {boolean} - Create navigation for paging control of each clide? Note: Leave true for manualControls usage
-      navigatorsContainer: "",        // {string} - Custom css class name to be added to Navigation menu
-      directionNav: true,             // {boolean} - Create navigation for previous/next navigation? (true/false)
+      indicatorsNav: true,            // {boolean} - Create navigation for paging control of each clide? Note: Leave true for manualControls usage
+      indicatorsNavContainer: "",     // {string|array} - Custom css class name(s) to be added to Navigation menu, could be array or space separated string of names
+      directivesNav: true,            // {boolean} - Create navigation for previous/next navigation? (true/false)
+      directivesContainer: "",        // {string|array} - Custom css class name(s) to be added to Navigation menu, could be array or space separated string of names
       pasueButton: true,              // {boolean} - Show pause button
-      prevText: "Previous",           // {string} - Set the text for the "previous" directionNav item
+      prevText: "Prev",               // {string} - Set the text for the "previous" directionNav item
       nextText: "Next",               // {string} - Set the text for the "next" directionNav item
 
       // Maual navigation
@@ -53,6 +54,7 @@
       itemMargin: 0,                  // {nteger} - Margin between carousel items.
       minItems: 0,                    // {nteger} - Minimum number of carousel items that should be visible. Items will resize fluidly when below this.
       maxItems: 0,                    // {nteger} - Maxmimum number of carousel items that should be visible. Items will resize fluidly when above this limit.
+      currentSlide: 0
     };
 
     this._options = _merge(defaults, config);
@@ -175,8 +177,14 @@
     // setting with of items manually
     this.slidesContainer.style.width = (100 * length) + '%';
 
-    if (this._options.navigators) {
-      _addNavigators.call(this);
+    // adding navigators if permitted in options
+    if (this._options.indicatorsNav) {
+      _addIndicatorsNav.call(this);
+    }
+
+    // adding navigators if permitted in options
+    if (this._options.directivesNav) {
+      _addDirectives.call(this);
     }
 
 
@@ -228,10 +236,15 @@
     _goTo.call(this, this._options.currentSlide + 1)
   }
 
-
-  function _manualGoTo () {
+  function _activateIndicator (index) {
+    for (var i = 0; i < this._options.indicatorsNavEl.children.length; i++) {
+      _removeClass(this._options.indicatorsNavEl.children[i], 'active');
+    }
+    _addClass(this._options.indicatorsNavEl.children[index], 'active')
 
   }
+
+
   /**
    * @name _goTo
    * @summary navigate to given slide number
@@ -240,6 +253,7 @@
    * @param index {number} - the index of target slide in the slidesContainer
    **/
   function _goTo (index) {
+    _activateIndicator.call(this, index);
     // normilizing index
     // @todo check loop or one directional
     if (index >= this.slideElements.length) {
@@ -271,32 +285,106 @@
   }
 
   /**
-   * @name _addNavigators
+   * @name _addBulletsNav
    * @summary navigate to given slide number
    * this will navigate to last slide if index is greater than slide numbers
    * and also to first slide if index is zero
    * @param index {number} - the index of target slide in the slidesContainer
    **/
-  function _addNavigators () {
+  function _addIndicatorsNav () {
+
+
+    // generating navigators menu
+    this._options.indicatorsNavEl = document.createElement('ul');
+    var link = null;
+
+    // normalizing class name
+    if (typeof this._options.indicatorsNavContainer == 'string') {
+      this._options.indicatorsNavContainer = this._options.indicatorsNavContainer.split(' ')
+    }
+
+    // static class name to work with default css stylesheet
+    this._options.indicatorsNavContainer.unshift('leps-navigator');
+    this._options.indicatorsNavEl.className = this._options.indicatorsNavContainer.join(' ').trim();
+
+    // appending points to navigator
+    for (var i = 0; i < this.slideElements.length; i++) {
+      //creating each indicator
+      var point = document.createElement('li');
+      link = document.createElement('a');
+      link.setAttribute('data-index', i);
+
+      // activate intiating indicator
+      if (this._options.currentSlide == i) {
+        _addClass(point, 'active')
+      }
+
+      var self = this;
+      link.onclick = function (e) {
+        var index = e.target.getAttribute('data-index');
+        self.goTo(index);
+      }
+      //@todo add text content as: index of there are no titles for slides
+      point.appendChild(link);
+      this._options.indicatorsNavEl.appendChild(point);
+    }
+
+    // appending navigators menu to slider rapper
+    this.wrapperElement.appendChild(this._options.indicatorsNavEl);
+
+  }
+
+
+  /**
+   * @name _addDirectives
+   * @summary pext / prev buttons
+   * @param index {number} - the index of target slide in the slidesContainer
+   **/
+  function _addDirectives () {
+
     // generating navigators menu
     var navigators = document.createElement('nav');
     var navigatorsContainer = document.createElement('ul');
 
+    // normalizing class name
+    if (typeof this._options.directivesContainer == 'string') {
+      this._options.directivesContainer = this._options.directivesContainer.split(' ')
+    }
+    // static class name to work with default css stylesheet
+    this._options.directivesContainer.unshift('leps-directives');
+    navigators.className = this._options.directivesContainer.join(' ').trim();
+
     navigators.appendChild(navigatorsContainer);
 
     // appending points to navigator
-    for (var i = 0; i < this.slideElements.length; i++) {
-      var point = document.createElement('li');
-      point.onclick = _manualGoTo;
-      navigatorsContainer.appendChild(point);
+    var point = document.createElement('li');
+    point.className = 'leps-next';
+    var link = document.createElement('a');
+    link.textContent = this._options.nextText;
+    var self = this;
+    link.onclick = function () {
+      self.next();
     }
+    point.appendChild(link);
+    navigatorsContainer.appendChild(point);
+
+    point = document.createElement('li');
+    point.className = 'leps-prev';
+    link = document.createElement('a');
+    link.onclick = function () {
+      self.previous();
+    }
+    link.textContent = this._options.prevText;
+    point.appendChild(link);
+    navigatorsContainer.appendChild(point);
 
     // appending navigators menu to slider rapper
     this.wrapperElement.appendChild(navigators);
 
   }
-  // addControllers
-  // createIndicators
+
+
+
   // startSlideshow
   // stopSlideshow
   // push slide
