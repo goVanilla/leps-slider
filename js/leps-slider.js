@@ -59,6 +59,14 @@
 
     this._options = _merge(defaults, config);
 
+    /*
+     * checking options possibility
+     *
+     */
+     // only fade and slide is possible
+     this._options.animation = (this._options.animation == 'fade') ? 'fade' : 'slide';
+
+
     // construct intial HTML structure
     _construct.call(this);
   };// end of init
@@ -139,8 +147,10 @@
    * @summary creates intial html structure of slider
    * @param config {object} - options of slider
    **/
-  function _construct (config) {
+  function _construct () {
     this.wrapperElement = document.querySelector(this._options.wrapper);
+    _addClass(this.wrapperElement, 'leps-type-' + this._options.animation);
+
     if (this.wrapperElement == undefined) {
       _error('Wrapper element is mandatory for slider, define it in config or use #lep-slider');
     }
@@ -148,13 +158,13 @@
     // adding css class
     _addClass(this.wrapperElement, 'lep-slider-wrapper');
     // defining transision according to optons
-    this.wrapperElement.setAttribute('style', 'transition: transform ' + this._options.easing + ' '  + this._options.animationSpeed + 'ms;' +
-                                              '-webkit-transition: transform ' + this._options.easing + ' '  + this._options.animationSpeed + 'ms;' +
-                                              '-moz-transition: transform ' + this._options.easing + ' '  + this._options.animationSpeed + 'ms;' +
-                                              '-ms-transition: transform ' + this._options.easing + ' '  + this._options.animationSpeed + 'ms;');
+    var property = this._options.animation == 'fade' ? 'opacity' : 'transform';
+    this.wrapperElement.setAttribute('style', 'transition: ' + property + ' ' + this._options.easing + ' '  + this._options.animationSpeed + 'ms;' +
+                                              '-webkit-transition: ' + property + ' ' + this._options.easing + ' '  + this._options.animationSpeed + 'ms;' +
+                                              '-moz-transition: ' + property + ' ' + this._options.easing + ' '  + this._options.animationSpeed + 'ms;' +
+                                              '-ms-transition: ' + property + ' ' + this._options.easing + ' '  + this._options.animationSpeed + 'ms;');
 
-    var slideElements = (this._options.slide) ? this.wrapperElement.querySelectorAll(this._options.slide) : this.wrapperElement.children;
-
+  
     // create a container element, this is what we are to move it inside wrapper
     this.slidesContainer = document.createElement('div');
     this.slidesContainer.className = 'slides-container';
@@ -162,20 +172,24 @@
 
     // append children to container
     // wrapping elemnts by reference prvents loosing listeners already bound to elements
-    var length = slideElements.length;
+    var length = this.wrapperElement.children.length;
     this._options.slideWidth = 100 / length;
     for (var i = 0; i < length; i++) {
-      if (slideElements[0] != this.slidesContainer && slideElements[0] != undefined) {
-        _addClass(slideElements[0], 'slide-item');
-        slideElements[0].style.width = this._options.slideWidth + '%';
-        this.slidesContainer.appendChild(slideElements[0]);
+      if (this.wrapperElement.children[0] != this.slidesContainer && this.wrapperElement.children[0] != undefined) {
+        _addClass(this.wrapperElement.children[0], 'slide-item');
+        if (this._options.animation == 'slide') {
+          this.wrapperElement.children[0].style.width = this._options.slideWidth + '%';
+        }
+        this.slidesContainer.appendChild(this.wrapperElement.children[0]);
       }
     }
 
     this.slideElements = this.slidesContainer.children;
 
     // setting with of items manually
-    this.slidesContainer.style.width = (100 * length) + '%';
+    if (this._options.animation == 'slide') {
+      this.slidesContainer.style.width = (100 * length) + '%';
+    }
 
     // adding navigators if permitted in options
     if (this._options.indicatorsNav) {
@@ -267,18 +281,18 @@
     this._options.currentSlide = index;
 
     // navigating
-    // checking if browser supports transtion otherwise use left property with JS animation
-    if (_hasCssFeature('transition')) {
+    // checking if animation is slide, then use translateX
+    if (this._options.animation == 'slide') {
       //@todo add fade animation
       this.slidesContainer.setAttribute('style', 'width: '+ this.slidesContainer.style.width +
                                                   ';transform: translateX(-' + index * this._options.slideWidth + '%);' + 
                                                   '-webkit-transform: translateX(-' + index * this._options.slideWidth + '%);' + 
                                                   '-moz-transform: translateX(-' + index * this._options.slideWidth + '%);' + 
                                                   '-ms-transform: translateX(-' + index * this._options.slideWidth + '%;)');
-    // using JS animation
-    // for cases not supporting transition
+    // if animation id fade, the use opacity
     } else {
-      //@todo add JS fallback
+      _removeClass(this.slidesContainer.getElementsByClassName('leps-active-slide')[0], 'leps-active-slide');
+      _addClass(this.slidesContainer.getElementsByClassName('slide-item')[index], 'leps-active-slide');
     }
 
 
@@ -385,9 +399,8 @@
 
 
 
-  // startSlideshow
-  // stopSlideshow
   // push slide
+  // splice slide
 
 
   /**

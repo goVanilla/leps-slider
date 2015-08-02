@@ -12,17 +12,47 @@
 {
     position: relative;
     overflow: hidden;
-    .slides-container
+    // intiial strucure for fade animation
+    &.leps-type-fade
     {
-        position: relative;
-        height: 100%;
-        width: auto;
-        @include transition(inherit);
-        // @todo direction needed
-        .slide-item
+        .slides-container
         {
-            float: left;
+            position: relative;
             height: 100%;
+            width: auto;
+            @include transition(inherit);
+            // @todo direction needed
+            .slide-item
+            {
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                left: 0;
+                top: 0;
+            }
+        }
+    }
+    // intiial strucure for slide animation
+    &.leps-type-fade
+    {
+        .slides-container
+        {
+            position: relative;
+            height: 100%;
+            width: auto;
+            @include transition(inherit);
+            // @todo direction needed
+            .slide-item
+            {
+                float: left;
+                height: 100%;
+                opacity: 0;
+                @include transition(inherit);
+                &.leps-active-slide
+                {
+                    opacity: 1;
+                }
+            }
         }
     }
 
