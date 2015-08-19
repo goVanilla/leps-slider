@@ -12,17 +12,21 @@
 {
     position: relative;
     overflow: hidden;
+    .slides-container
+    {
+        position: relative;
+        height: 100%;
+        width: auto;
+        @include transition(inherit);
+        z-index: 1;
+    }
     // intiial strucure for fade animation
     &.leps-type-fade
     {
-        .slides-container
+        & > .slides-container
         {
-            position: relative;
-            height: 100%;
-            width: auto;
-            @include transition(inherit);
             // @todo direction needed
-            .slide-item
+            & > .slide-item
             {
                 position: absolute;
                 height: 100%;
@@ -35,14 +39,10 @@
     // intiial strucure for slide animation
     &.leps-type-fade
     {
-        .slides-container
+        & > .slides-container
         {
-            position: relative;
-            height: 100%;
-            width: auto;
-            @include transition(inherit);
             // @todo direction needed
-            .slide-item
+            & > .slide-item
             {
                 float: left;
                 height: 100%;
@@ -51,6 +51,7 @@
                 &.leps-active-slide
                 {
                     opacity: 1;
+                    z-index: 9999;
                 }
             }
         }
@@ -63,7 +64,7 @@
      **/
     .leps-navigator
     {
-        position: fixed;
+        position: absolute;
         left: 50%;
         bottom: 20px;
         @include transform( translateX(-50%) );
@@ -71,6 +72,7 @@
         height: 30px;
         border-radius: 15px;
         background-color: rgba(0,0,0,0.1);
+        z-index: 9999;
         & > li
         {
             display: block;
@@ -107,11 +109,12 @@
         color: rgba(255, 255, 255, 0.7);
         ul li
         {
-            position: fixed;
+            position: absolute;
             display: block;
             width: 70px;
             height: 60px;
             background: rgba(0,0,0,0.1);
+            z-index: 9999;
             a
             {
                 display: block;

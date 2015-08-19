@@ -1,50 +1,51 @@
 <html>
     <head>
         <style type="text/css">
-            html, body
-            {
-                height: 100%;
-                padding: 0;
-                margin: 0;
-            }
-            #lep-slider
-            {
-                width: 100%;
-                height: 100%;
-            }
-            #lep-slider div
-            {
-                height: 100%;
-            }
-            .color-1
-            {
-                background-color: #aaa;
-            }
-            .color-2
-            {
-                background-color: #999;
-            }
-            .color-3
-            {
-                background-color: #ddd;
-            }
-            .color-4
-            {
-                background-color: #eee;
-            }
+            
         </style>
+        <link rel="stylesheet" type="text/css" href="example.css">
         <link rel="stylesheet" type="text/css" href="../css/leps-slider.css">
         <script type="text/javascript" src="../js/leps-slider.js"></script>
     </head>
     <body>
         <div id="lep-slider">
-            <div class="color-1"></div>
-            <div class="color-2"></div>
-            <div class="color-3"></div>
-            <div class="color-4"></div>
+            <div class="color-3">
+                <h1>Leps slider</h1>
+                <h2>Supporting all CSS animations</h2>
+                <ul class="demos">
+                    <li><a onclick="demo1()">Demo 1</a></li>
+                    <li><a onclick="demo2()">Demo 2</a></li>
+                </ul>
+            </div>
+            <div>
+                <img src="slide-1.jpg" class="strech">
+            </div>
+            <div>
+                <img src="slide-2.jpg" class="strech">
+            </div>
+            <div>
+                <img src="slide-3.jpg" class="strech">
+            </div>
         </div>
         <script type="text/javascript">
-            var slider = new lepsSlider();
+            var slider1 = null;
+            var slider2 = null;
+            function demo1 () {
+                if (slider2 != undefined) {
+                    slider2.destroy();
+                }
+                slider1 = new lepsSlider();
+            }
+            function demo2 () {
+                if (slider1 != undefined) {
+                    slider1.destroy();
+                }
+                slider2 = new lepsSlider({
+                    wrapper: '#second-slider',
+                    animation: 'slide'
+                });
+            }
+            demo1();
         </script>
     </body>
 </html>

@@ -1,0 +1,21 @@
+{
+  "name": "leps-slider",
+  "version": "0.1.0",
+  "homepage": "https://github.com/alihaghighatkhah/leps-slider",
+  "authors": [
+    "alihaghighatkhah <alihaghighatkhah@yahoo.com>"
+  ],
+  "description": "Easy to use, pure JS-CSS3 content slider",
+  "main": "js/leps-slider.js",
+  "keywords": [
+    "slider"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

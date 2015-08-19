@@ -201,6 +201,9 @@
       _addDirectives.call(this);
     }
 
+    // start with the current slider, 0 if not changed
+    _goTo.call(this, this._options.currentSlide);
+
 
   }
 
@@ -251,10 +254,12 @@
   }
 
   function _activateIndicator (index) {
-    for (var i = 0; i < this._options.indicatorsNavEl.children.length; i++) {
-      _removeClass(this._options.indicatorsNavEl.children[i], 'active');
+    if (this._options.indicatorsNav) {
+      for (var i = 0; i < this._options.indicatorsNavEl.children.length; i++) {
+        _removeClass(this._options.indicatorsNavEl.children[i], 'active');
+      }
+      _addClass(this._options.indicatorsNavEl.children[index], 'active')
     }
-    _addClass(this._options.indicatorsNavEl.children[index], 'active')
 
   }
 
@@ -397,6 +402,10 @@
 
   }
 
+  function _destory () {
+
+  }
+
 
 
   // push slide
@@ -455,6 +464,10 @@
     },
     goTo: function (index) {
       _goTo.call(this, index);
+      return this;
+    },
+    destory: function () {
+      _destory.call(this);
       return this;
     }
   };
