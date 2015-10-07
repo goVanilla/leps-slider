@@ -2,7 +2,9 @@
 > Light weight, easy to use and pure JavaScript slide show library
 
 ## Install
-
+```javascript
+bower install leps-slider
+  ```
 ## How to use
 Add script and style sheet to the layout file:<br>
 
