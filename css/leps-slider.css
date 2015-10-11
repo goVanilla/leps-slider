@@ -1,0 +1,251 @@
+/* line 1, ../sass/_reset.scss */
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strike, strong, sub, sup, tt, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup, nav, output, ruby, section,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* line 22, ../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../sass/_reset.scss */
+html {
+  line-height: 1;
+}
+
+/* line 24, ../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 27, ../sass/_reset.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 26, ../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 32, ../sass/_reset.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 28, ../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 38, ../sass/_reset.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 30, ../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 45, ../sass/_reset.scss */
+q, blockquote {
+  quotes: none;
+}
+
+/* line 103, ../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 49, ../sass/_reset.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 32, ../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 55, ../sass/_reset.scss */
+a img {
+  border: none;
+}
+
+/* line 116, ../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+/* line 60, ../sass/_reset.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+  display: block;
+}
+
+/*====== main colors ======= */
+/* line 4, ../sass/_base.scss */
+*,
+:before,
+:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: none;
+}
+
+/* line 11, ../sass/_base.scss */
+* html .clearfix {
+  /* IE6 */
+  zoom: 1;
+}
+
+/* line 16, ../sass/_base.scss */
+*:first-child + html.clearfix {
+  /* IE7 */
+  zoom: 1;
+}
+
+/* line 22, ../sass/_base.scss */
+.hidden {
+  display: none !important;
+}
+
+/* line 11, ../sass/leps-slider.scss */
+.lep-slider-wrapper {
+  position: relative;
+  overflow: hidden;
+  /**
+   *
+   * Navigator
+   *
+   **/
+  /**
+   *
+   * Directors
+   *
+   **/
+}
+/* line 15, ../sass/leps-slider.scss */
+.lep-slider-wrapper .slides-container {
+  position: relative;
+  height: 100%;
+  width: auto;
+  -moz-transition: inherit;
+  -o-transition: inherit;
+  -webkit-transition: inherit;
+  transition: inherit;
+  z-index: 1;
+}
+/* line 29, ../sass/leps-slider.scss */
+.lep-slider-wrapper.leps-type-fade > .slides-container > .slide-item {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+/* line 45, ../sass/leps-slider.scss */
+.lep-slider-wrapper.leps-type-fade > .slides-container > .slide-item {
+  float: left;
+  height: 100%;
+  opacity: 0;
+  -moz-transition: inherit;
+  -o-transition: inherit;
+  -webkit-transition: inherit;
+  transition: inherit;
+}
+/* line 51, ../sass/leps-slider.scss */
+.lep-slider-wrapper.leps-type-fade > .slides-container > .slide-item.leps-active-slide {
+  opacity: 1;
+  z-index: 9999;
+}
+/* line 65, ../sass/leps-slider.scss */
+.lep-slider-wrapper .leps-navigator {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  display: block;
+  height: 30px;
+  border-radius: 15px;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+}
+/* line 76, ../sass/leps-slider.scss */
+.lep-slider-wrapper .leps-navigator > li {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+  float: left;
+  border-radius: 10px;
+  margin: 5px;
+}
+/* line 85, ../sass/leps-slider.scss */
+.lep-slider-wrapper .leps-navigator > li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+/* line 92, ../sass/leps-slider.scss */
+.lep-slider-wrapper .leps-navigator > li.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  cursor: auto;
+}
+/* line 106, ../sass/leps-slider.scss */
+.lep-slider-wrapper .leps-directives {
+  font-family: sans-serif;
+  color: rgba(255, 255, 255, 0.7);
+}
+/* line 110, ../sass/leps-slider.scss */
+.lep-slider-wrapper .leps-directives li {
+  position: absolute;
+  display: block;
+  width: 70px;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+/* line 121, ../sass/leps-slider.scss */
+.lep-slider-wrapper .leps-directives li a {
+  display: block;
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 40px;
+  width: 60px;
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+}
+/* line 133, ../sass/leps-slider.scss */
+.lep-slider-wrapper .leps-directives li.leps-next {
+  right: 0;
+  top: 50%;
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  border-radius: 20px 0 0 20px;
+}
+/* line 139, ../sass/leps-slider.scss */
+.lep-slider-wrapper .leps-directives li.leps-next a {
+  border-radius: 10px 0 0 10px;
+  margin: 10px 0 0 10px;
+}
+/* line 145, ../sass/leps-slider.scss */
+.lep-slider-wrapper .leps-directives li.leps-prev {
+  left: 0;
+  top: 50%;
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  border-radius: 0 20px 20px 0;
+}
+/* line 151, ../sass/leps-slider.scss */
+.lep-slider-wrapper .leps-directives li.leps-prev a {
+  border-radius: 0 10px 10px 0;
+  margin: 10px 10px 0 0;
+}
+/* line 157, ../sass/leps-slider.scss */
+.lep-slider-wrapper .leps-directives li.leps-inactive {
+  pointer-events: none;
+  color: rgba(0, 0, 0, 0.2);
+}

@@ -107,7 +107,7 @@
      {
         font-family: sans-serif;
         color: rgba(255, 255, 255, 0.7);
-        ul li
+        li
         {
             position: absolute;
             display: block;
@@ -115,10 +115,13 @@
             height: 60px;
             background: rgba(0,0,0,0.1);
             z-index: 9999;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
             a
             {
                 display: block;
-                background-color: rgba(0,0,0,.2);
+                background-color: $shadow-color;
                 height: 40px;
                 width: 60px;
                 text-transform: uppercase;
@@ -150,6 +153,11 @@
                     border-radius: 0 10px 10px 0;
                     margin: 10px 10px 0 0;
                 }
+            }
+            &.leps-inactive
+            {
+                pointer-events: none;
+                color: $shadow-color;
             }
         }
      }

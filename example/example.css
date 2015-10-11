@@ -4,41 +4,41 @@ html, body
     padding: 0;
     margin: 0;
 }
-#lep-slider
+#leps-slider
 {
     width: 100%;
     height: 100%;
 }
-#lep-slider div
+#leps-slider div
 {
     height: 100%;
     overflow: hidden;
     font-family: monospace;
 }
-#lep-slider div h1
+#leps-slider div h1
 {
     font-size: 42px;
     text-align: center;
     line-height: 42px;
     padding-top: 30px;
 }
-#lep-slider div h2
+#leps-slider div h2
 {
     font-size: 28px;
     text-align: center;
 }
-#lep-slider ul.demos
+#leps-slider ul.demos
 {
     display: inline-block;
     font-size: 18px;
     color: #09c;
     padding: 20px;
 }
-#lep-slider ul.demos li
+#leps-slider ul.demos li
 {
     display: inline-block;
 }
-#lep-slider div img
+#leps-slider div img
 {
     width: 100%;
     height: auto;

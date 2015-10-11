@@ -23,7 +23,7 @@
      */
     var defaults = {
       /* value key */
-      wrapper: '#lep-slider',
+      wrapper: '#leps-slider',
       animation: "fade",              // {string} - fade or slide
       easing: "ease",                 // {string} - Determines the easing method used in transitions. cubic buizier for example
       direction: 'ltr',               // {string} - rtl or ltr. defines the dirction of accending slide
@@ -272,18 +272,23 @@
    * @param index {number} - the index of target slide in the slidesContainer
    **/
   function _goTo (index) {
-    _activateIndicator.call(this, index);
     // normilizing index
     // @todo check loop or one directional
-    if (index >= this.slideElements.length) {
+    if (index >= this.slideElements.length -1) {
       _warn('Provided index greater than number of existing slides. navigating to last slide instead.');
+      _addClass(this._options.navigatorsNavEl.getElementsByClassName('leps-next')[0], 'leps-inactive');
       index = this.slideElements.length - 1;
-    } else if (index < 0) {
+    } else if (index <= 0) {
       _warn('Provided a negative index. navigating to first slide instead.');
+      _addClass(this._options.navigatorsNavEl.getElementsByClassName('leps-prev')[0], 'leps-inactive');
       index = 0;
+    } else {
+      _removeClass(this._options.navigatorsNavEl.getElementsByClassName('leps-next')[0], 'leps-inactive');
+      _removeClass(this._options.navigatorsNavEl.getElementsByClassName('leps-prev')[0], 'leps-inactive');
     }
 
     this._options.currentSlide = index;
+    _activateIndicator.call(this, index);
 
     // navigating
     // checking if animation is slide, then use translateX
@@ -317,14 +322,16 @@
     this._options.indicatorsNavEl = document.createElement('ul');
     var link = null;
 
+    var indicatorsClassList = [];
     // normalizing class name
     if (typeof this._options.indicatorsNavContainer == 'string') {
-      this._options.indicatorsNavContainer = this._options.indicatorsNavContainer.split(' ')
+      indicatorsClassList = this._options.indicatorsNavContainer.split(' ')
     }
 
     // static class name to work with default css stylesheet
-    this._options.indicatorsNavContainer.unshift('leps-navigator');
-    this._options.indicatorsNavEl.className = this._options.indicatorsNavContainer.join(' ').trim();
+    indicatorsClassList.unshift('leps-navigator');
+    this._options.indicatorsNavContainer = indicatorsClassList.join(' ').trim();
+    this._options.indicatorsNavEl.className = this._options.indicatorsNavContainer;
 
     // appending points to navigator
     for (var i = 0; i < this.slideElements.length; i++) {
@@ -362,18 +369,18 @@
   function _addDirectives () {
 
     // generating navigators menu
-    var navigators = document.createElement('nav');
-    var navigatorsContainer = document.createElement('ul');
+    this._options.navigatorsNavEl = document.createElement('ul');
 
     // normalizing class name
+    var navigatorsClassList = [];
     if (typeof this._options.directivesContainer == 'string') {
-      this._options.directivesContainer = this._options.directivesContainer.split(' ')
+      navigatorsClassList = this._options.directivesContainer.split(' ');
     }
     // static class name to work with default css stylesheet
-    this._options.directivesContainer.unshift('leps-directives');
-    navigators.className = this._options.directivesContainer.join(' ').trim();
+    navigatorsClassList.unshift('leps-directives');
+    this._options.directivesContainer = navigatorsClassList.join(' ').trim();
+    this._options.navigatorsNavEl.className = this._options.directivesContainer;
 
-    navigators.appendChild(navigatorsContainer);
 
     // appending points to navigator
     var point = document.createElement('li');
@@ -385,7 +392,7 @@
       self.next();
     }
     point.appendChild(link);
-    navigatorsContainer.appendChild(point);
+    this._options.navigatorsNavEl.appendChild(point);
 
     point = document.createElement('li');
     point.className = 'leps-prev';
@@ -395,10 +402,10 @@
     }
     link.textContent = this._options.prevText;
     point.appendChild(link);
-    navigatorsContainer.appendChild(point);
+    this._options.navigatorsNavEl.appendChild(point);
 
     // appending navigators menu to slider rapper
-    this.wrapperElement.appendChild(navigators);
+    this.wrapperElement.appendChild(this._options.navigatorsNavEl);
 
   }
 
