@@ -1,8 +1,7 @@
 'use strict';
 /**
- * otobox - Simple and fast JavaScript/HTML5 library to create autocomplete inputs
+ * Content slider in Vanilla JS
  *
- * Afshin Mehrabani [@afshinmeh]
  */
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
